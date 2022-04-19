@@ -46,4 +46,16 @@ public class RequerimientosController {
 		log.info("setRequerimiento: " + model.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimiento(model));
 	}
+        
+        @GetMapping("/porVencer")
+	public ResponseEntity<List<RequerimientosModel>> getRequerimientoPorVencer() throws Exception {
+		log.info("getRequerimientoPorVencer");
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimientoPorVencer());
+	}
+        
+        @GetMapping("/vencidos")
+	public ResponseEntity<List<RequerimientosModel>> requerimientosVencidos() throws Exception {
+		log.info("requerimientosVencidos");
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.requerimientosVencidos());
+	}
 }

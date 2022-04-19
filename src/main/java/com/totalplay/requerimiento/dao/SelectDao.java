@@ -23,5 +23,9 @@ public interface SelectDao {
 	public List<RequerimientosModel> getRequerimeiintoFilter(@Param("id") String id, @Param("numeric") boolean numeric);
 
 	public void setAddons(RequAddonModel model);
+        
+        public List<RequerimientosModel> getRequerimientoPorVencer();
+        
+        public List<RequerimientosModel> getRequerimientosVencidos();
 	
 }

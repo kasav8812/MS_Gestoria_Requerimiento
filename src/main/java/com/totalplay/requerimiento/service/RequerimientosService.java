@@ -33,4 +33,11 @@ public class RequerimientosService {
 	private boolean isNumeric(String str) {
 		return str.chars().allMatch( Character::isDigit );
 	}
+        public List<RequerimientosModel> getRequerimientoPorVencer() {
+		return selectDao.getRequerimientoPorVencer();
+	}
+        
+        public List<RequerimientosModel> requerimientosVencidos() {
+		return selectDao.getRequerimientosVencidos();
+	}
 }
