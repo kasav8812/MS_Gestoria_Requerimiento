@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.totalplay.requerimiento.dao.SelectDao">
+
+	<select id="getStatus" resultType="StatsuVo">
+		SELECT
+			DUMMY MESSAGE,
+			TO_CHAR(SYSDATE, 'DD/MM/YYYY') DATES
+		FROM DUAL
+	</select>
+	
+	<select id="getRequerimeiinto" resultType="RequerimientosModel">
+		SELECT
+		    TR.TPGREQID ID,
+		    TP.PERMISO,
+		    TU1.NAME UBICACION,
+		    TU2.NAME MUNICIPIO,
+		    TR.VIGENCIA || ' ' || TM.UMEDIDA  VIGENCIA,
+            TA.AREA,
+		    TO_CHAR(TR.DATEREQ, 'DD/MM/YYYY') FECHAREQ,
+		    TO_CHAR(TR.DETEEND, 'DD/MM/YYYY') FECHAVENCIMIENTO,
+		    TE.ESTADO,
+		    TR.TPGCEID IDESTADO
+		FROM TPG_REQUERIMIENTO TR
+		    INNER JOIN TPGC_PERMISO TP ON TR.TPGCPID = TP.TPGCPID
+		    INNER JOIN TPGC_UBICACION TU1 ON TR.TPGCUID = TU1.TPGCUID
+		    INNER JOIN TPGC_UBICACION TU2 ON TR.TPGCUIDREF = TU2.TPGCUID
+		    INNER JOIN TPGC_ESTADOS TE ON TR.TPGCEID = TE.TPGCEID
+            INNER JOIN TPGC_MEDIDA TM ON TR.TPGCUMID = TM.TPGCUMID
+            INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
+		<if test="id != null">
+			WHERE TR.TPGREQID  = #{id}
+		</if>
+	</select>
+	
+	<insert id="setRequerimiento" useGeneratedKeys="true" keyProperty="req.id" keyColumn="TPGREQID">
+		INSERT INTO TPG_REQUERIMIENTO(
+		    TPGREQID,
+		    TPGCPID,
+		    TPGCUID,
+		    TPGCUIDREF,
+		    VIGENCIA,
+			TPGCUMID,
+			TPGCAID,
+		    DATEREQ,
+		    DETEEND,
+		    TPGCEID
+		)VALUES(
+		    STPGTPGREQID.NEXTVAL,
+		    #{req.tipoRequerimineto},
+		    #{req.ubicacionEstado},
+		    #{req.municipio},
+		    #{req.vigencia},
+			#{req.umedida},
+			#{req.area},
+		   	TO_DATE(#{req.fechaRequerimiento},'YYYY-MM-DD'),
+		    TO_DATE(#{req.fechaVencimiento},'YYYY-MM-DD'),
+		    1
+		)
+	</insert>	
+	<select id="getRequerimeiintoFilter" resultType="RequerimientosModel">
+		SELECT
+		    TR.TPGREQID ID,
+		    TP.PERMISO,
+		    TU1.NAME UBICACION,
+		    TU2.NAME MUNICIPIO,
+		    TR.VIGENCIA || ' ' || TM.UMEDIDA  VIGENCIA,
+            TA.AREA,
+		    TO_CHAR(TR.DATEREQ, 'DD/MM/YYYY') FECHAREQ,
+		    TO_CHAR(TR.DETEEND, 'DD/MM/YYYY') FECHAVENCIMIENTO,
+		    TE.ESTADO,
+		    TR.TPGCEID IDESTADO
+		FROM TPG_REQUERIMIENTO TR
+		    INNER JOIN TPGC_PERMISO TP ON TR.TPGCPID = TP.TPGCPID
+		    INNER JOIN TPGC_UBICACION TU1 ON TR.TPGCUID = TU1.TPGCUID
+		    INNER JOIN TPGC_UBICACION TU2 ON TR.TPGCUIDREF = TU2.TPGCUID
+		    INNER JOIN TPGC_ESTADOS TE ON TR.TPGCEID = TE.TPGCEID
+            INNER JOIN TPGC_MEDIDA TM ON TR.TPGCUMID = TM.TPGCUMID
+            INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
+		<if test="numeric == true">
+			WHERE TR.TPGREQID LIKE '%'||#{id}||'%'
+		</if>
+		<if test="numeric != true">
+			WHERE TP.PERMISO LIKE UPPER('%'||#{id}||'%')
+		</if>
+	</select>	
+	
+	<insert id="setAddons">
+		INSERT INTO TPG_REQUERIMIENTO(
+			TPGREQID,
+			FOLIO,
+			IMPORTE,
+			PAYDATE,
+			REGISTROC,
+			NOMBRECONT,
+			PROVEEDOR,
+			SISTEMA,
+			TPGCSID,
+			FEGRESO,
+			TPGCAID,
+			CC,
+			NOMBRECC,
+			POSTFIN,
+			INCPERMISO,
+			HORARIO,
+			NEGACION,
+			CANTIDAD,
+			VIGENCIA,
+			TPGCUMID,
+			FORMAPAGO,
+			TPGCCID,
+			TPGCACID,
+			DESCRIPCION
+		)VALUES(
+			#{req.idRequerimiento},
+			#{req.folio},
+			#{req.importe},
+			#{req.paydate},
+			#{req.registroContable},
+			#{req.nombreContacto},
+			#{req.proveedor},
+			#{req.sistema},
+			#{req.tipoSolicitud},
+			#{req.folioEgreso},
+			#{req.area},
+			#{req.cc},
+			#{req.nombreCc},
+			#{req.postFin},
+			#{req.incluidoPermiso},
+			#{req.horario},
+			#{req.perNeg},
+			#{req.catidad},
+			#{req.vigencia},
+			#{req.uMedida},
+			#{req.formaPago},
+			#{req.cobertura},
+			#{req.actividad},
+			#{req.descripcion}
+		)
+	</insert>
+</mapper>
