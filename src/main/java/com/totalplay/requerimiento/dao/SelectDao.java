@@ -24,8 +24,10 @@ public interface SelectDao {
 
 	public void setAddons(RequAddonModel model);
         
-        public List<RequerimientosModel> getRequerimientoPorVencer();
+        public List<RequerimientosModel> getRequerimientoPorVencer(@Param("id") String id);
         
-        public List<RequerimientosModel> getRequerimientosVencidos();
+        public List<RequerimientosModel> getRequerimientosVencidos(@Param("id") String id);
+        
+	public List<RequerimientosModel> getRequerimientoEstado(@Param("id") String id);
 	
 }

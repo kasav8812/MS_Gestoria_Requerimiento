@@ -1,5 +1,6 @@
 package com.totalplay.requerimiento.controller;
 
+import com.totalplay.requerimiento.model.ReqEstado;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +48,21 @@ public class RequerimientosController {
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimiento(model));
 	}
         
-        @GetMapping("/porVencer")
-	public ResponseEntity<List<RequerimientosModel>> getRequerimientoPorVencer() throws Exception {
+        @PostMapping("/porVencer")
+	public ResponseEntity<List<RequerimientosModel>> getRequerimientoPorVencer(@RequestBody ReqEstado model) throws Exception {
 		log.info("getRequerimientoPorVencer");
-		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimientoPorVencer());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimientoPorVencer(model.getId()));
 	}
         
-        @GetMapping("/vencidos")
-	public ResponseEntity<List<RequerimientosModel>> requerimientosVencidos() throws Exception {
+        @PostMapping("/vencidos")
+	public ResponseEntity<List<RequerimientosModel>> requerimientosVencidos(@RequestBody ReqEstado model) throws Exception {
 		log.info("requerimientosVencidos");
-		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.requerimientosVencidos());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.requerimientosVencidos(model.getId()));
+	}
+        
+        @PostMapping("/requerimientosEstado")
+	public ResponseEntity<List<RequerimientosModel>> getRequerimientoEstado(@RequestBody ReqEstado model) throws Exception {
+		log.info("setRequerimiento: " + model.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimientoEstado(model.getId()));
 	}
 }

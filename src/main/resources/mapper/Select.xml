@@ -160,6 +160,7 @@
             INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
             WHERE TO_DATE (TR.DETEEND,'DD/MM/YYYY') &lt;= TO_DATE(sysdate+10,'DD/MM/YYYY')
             AND TO_DATE (TR.DETEEND,'DD/MM/YYYY') &gt;= TO_DATE(sysdate,'DD/MM/YYYY')
+            AND TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
 	</select>
         
         <select id="getRequerimientosVencidos" resultType="RequerimientosModel">
@@ -183,5 +184,28 @@
             INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
             WHERE TO_DATE (TR.DETEEND,'DD/MM/YYYY') &gt;= TO_DATE(sysdate-10,'DD/MM/YYYY')
             AND TO_DATE (TR.DETEEND,'DD/MM/YYYY') &lt; TO_DATE(sysdate,'DD/MM/YYYY')
+            AND TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
+	</select>
+        
+        <select id="getRequerimientoEstado" resultType="RequerimientosModel">
+		SELECT
+		    TR.TPGREQID ID,
+		    TP.PERMISO,
+		    TU1.NAME UBICACION,
+		    TU2.NAME MUNICIPIO,
+		    TR.VIGENCIA || ' ' || TM.UMEDIDA  VIGENCIA,
+            TA.AREA,
+		    TO_CHAR(TR.DATEREQ, 'DD/MM/YYYY') FECHAREQ,
+		    TO_CHAR(TR.DETEEND, 'DD/MM/YYYY') FECHAVENCIMIENTO,
+		    TE.ESTADO,
+		    TR.TPGCEID IDESTADO
+		FROM TPG_REQUERIMIENTO TR
+		    INNER JOIN TPGC_PERMISO TP ON TR.TPGCPID = TP.TPGCPID
+		    INNER JOIN TPGC_UBICACION TU1 ON TR.TPGCUID = TU1.TPGCUID
+		    INNER JOIN TPGC_UBICACION TU2 ON TR.TPGCUIDREF = TU2.TPGCUID
+		    INNER JOIN TPGC_ESTADOS TE ON TR.TPGCEID = TE.TPGCEID
+            INNER JOIN TPGC_MEDIDA TM ON TR.TPGCUMID = TM.TPGCUMID
+            INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
+            WHERE TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
 	</select>
 </mapper>
