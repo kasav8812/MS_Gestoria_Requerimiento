@@ -1,6 +1,8 @@
 package com.totalplay.requerimiento.controller;
 
 import com.totalplay.requerimiento.model.ReqEstado;
+import com.totalplay.requerimiento.model.ReqVencidosYPorVencer;
+import com.totalplay.requerimiento.model.RequAddonModel;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +66,22 @@ public class RequerimientosController {
 	public ResponseEntity<List<RequerimientosModel>> getRequerimientoEstado(@RequestBody ReqEstado model) throws Exception {
 		log.info("setRequerimiento: " + model.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimientoEstado(model.getId()));
+	}
+        @PostMapping("/completo")
+	public ResponseEntity<List<RequAddonModel>> getRequerimientoCompleto(@RequestBody ReqEstado model) throws Exception {
+		log.info("getRequerimiento",model.getId());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimientoCompleto(model.getId()));
+	}
+        @PostMapping("/addRelacion")
+	public ResponseEntity<String> setRequerimientoRelacion(@RequestBody ReqVencidosYPorVencer model) throws Exception {
+            System.err.println("model");
+            System.err.println(model.toString());
+		log.info("getRequerimiento",model.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimientoRelacion(model));
+	}
+        @PostMapping("/reactivar")
+	public ResponseEntity<RequerimientosModel> setRequerimientoReactivar(@RequestBody ReqEstado model) throws Exception {
+		log.info("setRequerimiento: " + model.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimientoReac(model.getId()));
 	}
 }

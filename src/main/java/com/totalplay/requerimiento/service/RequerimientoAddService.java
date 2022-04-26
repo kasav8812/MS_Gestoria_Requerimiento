@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.totalplay.requerimiento.dao.SelectDao;
 import com.totalplay.requerimiento.model.RequAddonModel;
+import java.util.List;
 
 @Service
 public class RequerimientoAddService {
@@ -12,9 +13,9 @@ public class RequerimientoAddService {
 	@Autowired
 	private SelectDao selectDao;
 
-	public String add(RequAddonModel model) {
+	public RequAddonModel add(RequAddonModel model) {
 		selectDao.setAddons(model);
-		return "";
+                return selectDao.getRequerimientoCompleto(model.getIdRequerimiento().toString()).get(0);
 	}
-
+        
 }

@@ -1,6 +1,7 @@
 package com.totalplay.requerimiento.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -29,10 +30,9 @@ public class RequAddonModel implements Serializable{
 	private String perNeg;
 	private Integer catidad;
 	private Integer vigencia;
-	private Integer uMedida;
+	private Integer medida;
 	private String formaPago;
 	private Integer cobertura;
 	private String actividad;
 	private String descripcion;
-	private Integer idEstado;
 }

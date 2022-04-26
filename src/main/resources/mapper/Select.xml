@@ -86,7 +86,7 @@
 	</select>	
 	
 	<insert id="setAddons">
-		INSERT INTO TPG_REQUERIMIENTO(
+		INSERT INTO TPG_REQADDON(
 			TPGREQID,
 			FOLIO,
 			IMPORTE,
@@ -115,7 +115,7 @@
 			#{req.idRequerimiento},
 			#{req.folio},
 			#{req.importe},
-			#{req.paydate},
+                        TO_DATE(#{req.paydate},'YYYY-MM-DD'),
 			#{req.registroContable},
 			#{req.nombreContacto},
 			#{req.proveedor},
@@ -131,7 +131,7 @@
 			#{req.perNeg},
 			#{req.catidad},
 			#{req.vigencia},
-			#{req.uMedida},
+			#{req.medida},
 			#{req.formaPago},
 			#{req.cobertura},
 			#{req.actividad},
@@ -161,6 +161,7 @@
             WHERE TO_DATE (TR.DETEEND,'DD/MM/YYYY') &lt;= TO_DATE(sysdate+10,'DD/MM/YYYY')
             AND TO_DATE (TR.DETEEND,'DD/MM/YYYY') &gt;= TO_DATE(sysdate,'DD/MM/YYYY')
             AND TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
+            AND NOT EXISTS (SELECT *FROM tpgc_req_vencidos r WHERE r.folio_req_vencido=TR.TPGREQID)
 	</select>
         
         <select id="getRequerimientosVencidos" resultType="RequerimientosModel">
@@ -185,6 +186,7 @@
             WHERE TO_DATE (TR.DETEEND,'DD/MM/YYYY') &gt;= TO_DATE(sysdate-10,'DD/MM/YYYY')
             AND TO_DATE (TR.DETEEND,'DD/MM/YYYY') &lt; TO_DATE(sysdate,'DD/MM/YYYY')
             AND TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
+            AND NOT EXISTS (SELECT *FROM tpgc_req_vencidos r WHERE r.folio_req_vencido=TR.TPGREQID)
 	</select>
         
         <select id="getRequerimientoEstado" resultType="RequerimientosModel">
@@ -208,4 +210,56 @@
             INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
             WHERE TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
 	</select>
+        <select id="getRequerimientoCompleto" resultType="RequAddonModel">
+		SELECT 
+                TPGREQID idRequerimiento,FOLIO,IMPORTE, PAYDATE,REGISTROC registroContable,NOMBRECONT nombreContacto,PROVEEDOR,
+                SISTEMA,tpgcsid tipoSolicitud,FEGRESO folioEgreso,TPGCAID area,CC,NOMBRECC,POSTFIN,INCPERMISO incluidoPermiso,HORARIO,
+                NEGACION perNeg,CANTIDAD catidad,VIGENCIA,TPGCUMID medida,FORMAPAGO,TPGCCID cobertura,TPGCACID actividad,DESCRIPCION
+                FROM TPG_REQADDON 
+		<if test="id != null">
+			WHERE TPGREQID  = #{id}
+		</if>
+	</select>
+        <insert id="setRequerimientoRelacion" useGeneratedKeys="true" keyProperty="req.id" keyColumn="TPGCREQID">
+		INSERT INTO TPGC_REQ_VENCIDOS(
+		    TPGCREQID,
+		    FOLIO_REQ_VENCIDO,
+		    FOLIO_REQ_NUEVO,
+		    FECHA_CREACION,
+		    USUARIO_ID,
+                    ES_VENCIDA
+		)VALUES(
+		    STPGCREVEID.NEXTVAL,
+		    #{req.folioVencido},
+		    #{req.folioNuevo},
+		    TO_DATE(CURRENT_DATE,'YYYY-MM-DD'),
+		    #{req.user},
+		    #{req.vencida}
+		)
+	</insert>
+        <insert id="setRequerimientoReact" >
+		INSERT INTO TPG_REQUERIMIENTO(
+		    TPGREQID,
+		    TPGCPID,
+		    TPGCUID,
+		    TPGCUIDREF,
+		    VIGENCIA,
+			TPGCUMID,
+			TPGCAID,
+		    DATEREQ,
+		    DETEEND,
+		    TPGCEID
+		) 
+                    SELECT STPGTPGREQID.NEXTVAL,TPGCPID,
+		    TPGCUID,
+		    TPGCUIDREF,
+		    VIGENCIA,
+			TPGCUMID,
+			TPGCAID,
+		    DATEREQ,
+		    DETEEND,
+		    TPGCEID
+		    FROM TPG_REQUERIMIENTO WHERE TPGREQID=#{id}
+		    
+	</insert>
 </mapper>
