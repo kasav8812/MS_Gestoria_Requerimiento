@@ -1,5 +1,6 @@
 package com.totalplay.requerimiento.dao;
 
+import com.totalplay.requerimiento.model.ComentariosModel;
 import com.totalplay.requerimiento.model.ReqVencidosYPorVencer;
 import java.util.List;
 
@@ -36,5 +37,11 @@ public interface SelectDao {
         public void setRequerimientoRelacion(@Param("req") ReqVencidosYPorVencer req);
 
         public void setRequerimientoReact(@Param("id") String id);
+
+        public void cambiaEstatusRequerimiento(@Param("idEstatus") String idEstatus,@Param("id") String id);
+        
+        public List<ComentariosModel> getComentarios(@Param("id") int id);
+        
+        public void addComentario(@Param("req") ComentariosModel comentario);
 	
 }

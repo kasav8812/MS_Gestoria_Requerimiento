@@ -21,5 +21,13 @@ public class StatusService {
 		log.info("getSattus");
 		return selectDao.getStatus();
 	}
+        public String autorizaRequerimiento(String id){
+            selectDao.cambiaEstatusRequerimiento("5",id);
+            return "Exito";
+        }
+        public String cancelaRequerimiento(String id){
+            selectDao.cambiaEstatusRequerimiento("7",id);
+            return "Exito";
+        }
 
 }

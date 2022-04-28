@@ -262,4 +262,40 @@
 		    FROM TPG_REQUERIMIENTO WHERE TPGREQID=#{id}
 		    
 	</insert>
+        <insert id="cambiaEstatusRequerimiento" >
+		UPDATE TPG_REQUERIMIENTO
+                SET TPGCEID = #{idEstatus}
+                WHERE TPGREQID=#{id}		    
+	</insert>
+        <insert id="addComentario" useGeneratedKeys="true" keyProperty="req.id" keyColumn="TPGCOID">
+            INSERT INTO TPGC_COMENTARIOS(
+                TPGCOID ,
+                TPGUID ,
+                USERNAME ,
+                COMENTARIO ,
+                FECHA_CREACION ,
+                TPGREQID ,
+                TPGCOID_REPLY )
+            VALUES(
+                coment_seq.NEXTVAL,
+		#{req.idUser},
+		#{req.usuario},
+		#{req.comentario},
+                TO_DATE(CURRENT_DATE,'YYYY-MM-DD'),
+		#{req.idRequerimiento},
+		#{req.idComentarioReply}
+            )
+        </insert>
+        <select id="getComentarios" resultType="ComentariosModel">
+            SELECT 
+                TPGCOID id,
+                TPGUID idUser,
+                USERNAME usuario,
+                COMENTARIO comentario,
+                FECHA_CREACION fechaCreacion,
+                TPGREQID idRequerimiento,
+                TPGCOID_REPLY idComentarioReply FROM TPGC_COMENTARIOS
+             WHERE TPGREQID=#{id}
+        </select>
+        
 </mapper>
