@@ -1,6 +1,7 @@
 package com.totalplay.requerimiento.dao;
 
 import com.totalplay.requerimiento.model.ComentariosModel;
+import com.totalplay.requerimiento.model.ParametroModel;
 import com.totalplay.requerimiento.model.ReqVencidosYPorVencer;
 import java.util.List;
 
@@ -43,5 +44,9 @@ public interface SelectDao {
         public List<ComentariosModel> getComentarios(@Param("id") int id);
         
         public void addComentario(@Param("req") ComentariosModel comentario);
+        
+        public void addParametro(@Param("req") ParametroModel parametro);
+
+        public List<ParametroModel> getParametros(@Param("id") int id);
 	
 }

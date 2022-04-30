@@ -297,5 +297,21 @@
                 TPGCOID_REPLY idComentarioReply FROM TPGC_COMENTARIOS
              WHERE TPGREQID=#{id}
         </select>
-        
+        <insert id="addParametro">
+            INSERT INTO TPGC_PARAMETRO(
+                TPGCPID ,TIPO,VALOR ,ENABLED,FECHA_CREACION )
+            VALUES(
+                #{req.id},
+		#{req.tipo},
+		#{req.valor},
+		#{req.enabled},
+                TO_DATE(CURRENT_DATE,'YYYY-MM-DD')
+            )
+        </insert>
+        <select id="getParametros" resultType="ParametroModel">
+            SELECT TPGCPID id ,TIPO tipo,VALOR valor,ENABLED enabled,FECHA_CREACION fecha_creacion
+            FROM
+            TPGC_PARAMETRO
+            where TPGCPID=#{id}
+        </select>
 </mapper>
