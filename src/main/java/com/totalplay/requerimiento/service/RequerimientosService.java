@@ -74,4 +74,13 @@ public class RequerimientosService {
         selectDao.setRequerimientoReact(id);
         return selectDao.getRequerimeiinto(null).get(0);
     }
+    public List<RequerimientosModel> getRequermientoIds(String id) {
+        return selectDao.getRequermientoIds(id);
+    }
+    
+    @Transactional
+    public RequerimientosModel updateRequerimiento(RequerimientoModel req) {
+        selectDao.updateRequerimiento(req);
+        return selectDao.getRequerimeiinto(req.getId().toString()).get(0);
+    }
 }

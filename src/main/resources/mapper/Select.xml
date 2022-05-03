@@ -314,4 +314,35 @@
             TPGC_PARAMETRO
             where TPGCPID=#{id}
         </select>
+        <select id="getRequermientoIds" resultType="RequerimientosModel">
+		SELECT
+		    TR.TPGREQID ID,
+		    TPGCPID PERMISO,
+		    TPGCUID UBICACION,
+		    TPGCUIDREF MUNICIPIO,
+		    TR.VIGENCIA || ' ' || TPGCUMID  VIGENCIA,
+            TPGCAID AREA,
+		    TO_CHAR(TR.DATEREQ, 'DD/MM/YYYY') FECHAREQ,
+		    TO_CHAR(TR.DETEEND, 'DD/MM/YYYY') FECHAVENCIMIENTO,
+		    TPGCEID ESTADO,
+		    TR.TPGCEID IDESTADO
+		FROM TPG_REQUERIMIENTO TR
+		<if test="id != null">
+			WHERE TR.TPGREQID  = #{id}
+		</if>
+	</select>
+        <update id="updateRequerimiento" >
+		UPDATE TPG_REQUERIMIENTO 
+		    
+		    SET TPGCPID=#{req.tipoRequerimineto},
+		     TPGCUID=#{req.ubicacionEstado},
+		     TPGCUIDREF=#{req.municipio},
+		     VIGENCIA=#{req.vigencia},
+		     TPGCUMID=#{req.umedida},
+		     TPGCAID=#{req.area},
+		     DATEREQ=TO_DATE(#{req.fechaRequerimiento},'YYYY-MM-DD'),
+		     DETEEND=TO_DATE(#{req.fechaVencimiento},'YYYY-MM-DD')
+		where
+            TPGREQID=#{req.id}
+	</update>
 </mapper>

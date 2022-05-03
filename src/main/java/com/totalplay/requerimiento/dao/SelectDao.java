@@ -48,5 +48,10 @@ public interface SelectDao {
         public void addParametro(@Param("req") ParametroModel parametro);
 
         public List<ParametroModel> getParametros(@Param("id") int id);
+        
+        
+	public List<RequerimientosModel> getRequermientoIds(@Param("id") String id);
+        
+        public void updateRequerimiento(@Param("req") RequerimientoModel req);
 	
 }

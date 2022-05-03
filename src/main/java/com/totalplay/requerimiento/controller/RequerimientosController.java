@@ -44,10 +44,15 @@ public class RequerimientosController {
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequerimiento(id));
 	}
 	
+	
 	@PostMapping
 	public ResponseEntity<RequerimientosModel> setRequerimiento(@RequestBody RequerimientoModel model) throws Exception {
 		log.info("setRequerimiento: " + model.toString());
-		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimiento(model));
+                if(model.getId()!=null){
+                    return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.updateRequerimiento(model));
+                }else{
+                    return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimiento(model));
+                }
 	}
         
         @PostMapping("/porVencer")
@@ -83,5 +88,10 @@ public class RequerimientosController {
 	public ResponseEntity<RequerimientosModel> setRequerimientoReactivar(@RequestBody ReqEstado model) throws Exception {
 		log.info("setRequerimiento: " + model.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimientoReac(model.getId()));
+	}
+        @PostMapping("/getId")
+	public ResponseEntity<List<RequerimientosModel>> getRequermientoIds(@RequestBody ReqEstado model) throws Exception {
+		log.info("getRequerimiento/"+model.getId());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getRequermientoIds(model.getId()));
 	}
 }
