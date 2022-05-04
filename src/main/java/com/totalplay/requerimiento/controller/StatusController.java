@@ -44,4 +44,22 @@ public class StatusController {
 		log.info("status/autoriza");
 		return ResponseEntity.status(HttpStatus.OK).body(statusService.cancelaRequerimiento(model.getId()));
 	}
-}
+        
+        @PostMapping("/recibir")
+    	public ResponseEntity<?> recibir(@RequestBody ReqEstado model) throws Exception {
+    		log.info("status/recibir");
+    		return ResponseEntity.status(HttpStatus.OK).body(statusService.recibirRequerimiento(model.getId()));
+    	}
+        
+        @PostMapping("/cerrar")
+    	public ResponseEntity<?> cerrar(@RequestBody ReqEstado model) throws Exception {
+    		log.info("status/cerrar");
+    		return ResponseEntity.status(HttpStatus.OK).body(statusService.cerrarRequerimiento(model.getId()));
+    	}
+        
+        @PostMapping("/porAutorizar")
+    	public ResponseEntity<?> porAutorizar(@RequestBody ReqEstado model) throws Exception {
+    		log.info("status/porAutorizar");
+    		return ResponseEntity.status(HttpStatus.OK).body(statusService.porAutorizarRequerimiento(model.getId()));
+    	}
+} 
