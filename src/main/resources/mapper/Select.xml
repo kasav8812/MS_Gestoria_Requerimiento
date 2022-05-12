@@ -185,6 +185,7 @@
             INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
             WHERE TO_DATE (TR.DETEEND,'DD/MM/YYYY') &gt;= TO_DATE(sysdate-(select valor from tpgc_parametro where tpgcpid=2),'DD/MM/YYYY')
             AND TO_DATE (TR.DETEEND,'DD/MM/YYYY') &lt; TO_DATE(sysdate,'DD/MM/YYYY')
+            AND TR.TPGCEID = '1'
             AND TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
             AND NOT EXISTS (SELECT *FROM tpgc_req_vencidos r WHERE r.folio_req_vencido=TR.TPGREQID)
 	</select>
