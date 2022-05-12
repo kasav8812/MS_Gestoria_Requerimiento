@@ -15,6 +15,8 @@ public class RequerimientoAddService {
 
 	public RequAddonModel add(RequAddonModel model) {
 		selectDao.setAddons(model);
+//                Cambia status a Por Autorizar
+            selectDao.cambiaEstatusRequerimiento("3",model.getFolio());
                 return selectDao.getRequerimientoCompleto(model.getIdRequerimiento().toString()).get(0);
 	}
         
