@@ -96,8 +96,8 @@ public class RequerimientosController {
 	}
         
         @PostMapping("/updateRequerimiento")
-    	public ResponseEntity<RequerimientosModel> updateRequerimiento(@RequestBody ReqEstado model) throws Exception {
+    	public ResponseEntity<RequerimientosModel> updateRequerimiento(@RequestBody RequerimientoModel model) throws Exception {
     		log.info("updateRequerimiento: " + model.toString());
-    		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setRequerimientoReac(model.getId()));
+    		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.updateRequerimiento(model));
     	}
 }
