@@ -54,4 +54,5 @@ public interface SelectDao {
         
         public void updateRequerimiento(@Param("req") RequerimientoModel req);
 	
-}
+        public void updateRequerimientoAddon(@Param("req")RequAddonModel req);
+        }

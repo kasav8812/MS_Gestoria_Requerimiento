@@ -74,6 +74,7 @@ public class RequerimientosService {
         selectDao.setRequerimientoReact(id);
         return selectDao.getRequerimeiinto(null).get(0);
     }
+    
     public List<RequerimientosModel> getRequermientoIds(String id) {
         return selectDao.getRequermientoIds(id);
     }

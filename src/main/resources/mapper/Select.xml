@@ -44,7 +44,8 @@
 			TPGCAID,
 		    DATEREQ,
 		    DETEEND,
-		    TPGCEID
+		    TPGCEID,
+		    DATEMOD
 		)VALUES(
 		    STPGTPGREQID.NEXTVAL,
 		    #{req.tipoRequerimineto},
@@ -55,7 +56,8 @@
 			#{req.area},
 		   	TO_DATE(#{req.fechaRequerimiento},'YYYY-MM-DD'),
 		    TO_DATE(#{req.fechaVencimiento},'YYYY-MM-DD'),
-		    1
+		    1,
+		    SYSDATE
 		)
 	</insert>	
 	<select id="getRequerimeiintoFilter" resultType="RequerimientosModel">
@@ -110,7 +112,9 @@
 			FORMAPAGO,
 			TPGCCID,
 			TPGCACID,
-			DESCRIPCION
+			DESCRIPCION,
+			FOLIOSAP,
+			FOLIOSEG
 		)VALUES(
 			#{req.idRequerimiento},
 			#{req.folio},
@@ -135,7 +139,9 @@
 			#{req.formaPago},
 			#{req.cobertura},
 			#{req.actividad},
-			#{req.descripcion}
+			#{req.descripcion},
+			#{req.foliosap},			
+			#{req.folioseg}
 		)
 	</insert>
         
@@ -209,13 +215,13 @@
 		    INNER JOIN TPGC_ESTADOS TE ON TR.TPGCEID = TE.TPGCEID
             INNER JOIN TPGC_MEDIDA TM ON TR.TPGCUMID = TM.TPGCUMID
             INNER JOIN TPGC_AREA TA ON TR.TPGCAID = TA.TPGCAID
-            WHERE TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id})
+            WHERE TR.TPGCUID=(SELECT TPGCUID FROM tpg_usuarios WHERE username=#{id}) ORDER BY TPGREQID DESC
 	</select>
         <select id="getRequerimientoCompleto" resultType="RequAddonModel">
 		SELECT 
                 TPGREQID idRequerimiento,FOLIO,IMPORTE, PAYDATE,REGISTROC registroContable,NOMBRECONT nombreContacto,PROVEEDOR,
                 SISTEMA,tpgcsid tipoSolicitud,FEGRESO folioEgreso,TPGCAID area,CC,NOMBRECC,POSTFIN,INCPERMISO incluidoPermiso,HORARIO,
-                NEGACION perNeg,CANTIDAD catidad,VIGENCIA,TPGCUMID medida,FORMAPAGO,TPGCCID cobertura,TPGCACID actividad,DESCRIPCION
+                NEGACION perNeg,CANTIDAD catidad,VIGENCIA,TPGCUMID medida,FORMAPAGO,TPGCCID cobertura,TPGCACID actividad,DESCRIPCION,FOLIOSAP,FOLIOSEG 
                 FROM TPG_REQADDON 
 		<if test="id != null">
 			WHERE TPGREQID  = #{id}
@@ -296,7 +302,7 @@
                 FECHA_CREACION fechaCreacion,
                 TPGREQID idRequerimiento,
                 TPGCOID_REPLY idComentarioReply FROM TPGC_COMENTARIOS
-             WHERE TPGREQID=#{id}
+             WHERE TPGREQID=#{id} ORDER BY TPGCOID ASC
         </select>
         <insert id="addParametro">
             INSERT INTO TPGC_PARAMETRO(
@@ -345,5 +351,37 @@
 		     DETEEND=TO_DATE(#{req.fechaVencimiento},'YYYY-MM-DD')
 		where
             TPGREQID=#{req.id}
+	</update>
+	
+	 <update id="updateRequerimientoAddon" >
+		UPDATE TPG_REQADDON 
+		    
+		    SET FOLIO=#{req.folio},
+		     IMPORTE=#{req.importe},
+		     PAYDATE=TO_DATE(#{req.paydate},'YYYY-MM-DD'),
+		     REGISTROC=#{req.registroContable},
+		     NOMBRECONT=#{req.nombreContacto},
+		     PROVEEDOR=#{req.proveedor},
+		     SISTEMA=#{req.sistema},
+		     TPGCSID=#{req.tipoSolicitud},
+		     FEGRESO=#{req.folioEgreso},
+		     TPGCAID=#{req.area},
+		     CC=#{req.cc},
+		     NOMBRECC=#{req.nombreCc},
+		     POSTFIN=#{req.postFin},
+		     INCPERMISO=#{req.incluidoPermiso},
+		     HORARIO=#{req.horario},
+		     NEGACION=#{req.perNeg},
+		     CANTIDAD=#{req.catidad},
+		     VIGENCIA=#{req.vigencia},
+		     TPGCUMID=#{req.medida},
+		     FORMAPAGO=#{req.formaPago},
+		     TPGCCID=#{req.cobertura},
+		     TPGCACID=#{req.actividad},
+		     DESCRIPCION=#{req.descripcion},
+		     FOLIOSAP=#{req.foliosap},
+		     FOLIOSEG=#{req.folioseg}
+		where
+            TPGREQID=#{req.idRequerimiento}
 	</update>
 </mapper>

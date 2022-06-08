@@ -19,5 +19,11 @@ public class RequerimientoAddService {
            // selectDao.cambiaEstatusRequerimiento("4",model.getFolio());
                 return selectDao.getRequerimientoCompleto(model.getIdRequerimiento().toString()).get(0);
 	}
-        
+     
+	
+	public RequAddonModel updateAddon(RequAddonModel model){
+		selectDao.updateRequerimientoAddon(model);
+		
+        return selectDao.getRequerimientoCompleto(model.getIdRequerimiento().toString()).get(0);
+	}
 }

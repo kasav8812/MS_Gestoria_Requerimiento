@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.totalplay.requerimiento.model.RequAddonModel;
+import com.totalplay.requerimiento.model.RequerimientoModel;
+import com.totalplay.requerimiento.model.RequerimientosModel;
 import com.totalplay.requerimiento.service.RequerimientoAddService;
 import java.util.List;
 
@@ -31,5 +33,11 @@ public class RequerimientoAddController {
 		log.info("setRequerimientoadd: " + model.toString());
 //                log.info(model.idRequerimiento +","+model.folio +","+model.importe +","+model.paydate +","+model.registroContable +","+model.nombreContacto +","+model.proveedor +","+model.sistema +","+model.tipoSolicitud +","+model.folioEgreso +","+model.area +","+model.cc +","+model.nombreCc +","+model.postFin +","+model.incluidoPermiso +","+model.horario +","+model.perNeg +","+model.catidad +","+model.vigencia +","+model.medida +","+model.formaPago +","+model.cobertura +","+model.actividad +","+model.descripcion);
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientoAddService.add(model));
+	}
+	
+	@PostMapping("/updateAddon")
+	public ResponseEntity<RequAddonModel> updateAddon(@RequestBody RequAddonModel model) throws Exception {
+		log.info("updateRequerimiento: " + model.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(requerimientoAddService.updateAddon(model));
 	}
 }
