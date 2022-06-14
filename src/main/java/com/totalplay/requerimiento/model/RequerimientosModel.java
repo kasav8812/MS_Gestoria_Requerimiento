@@ -20,4 +20,5 @@ public class RequerimientosModel implements Serializable{
 	private String fechavencimiento;
 	private String estado;
 	private Integer idestado;
+	private String idUser;
 } 

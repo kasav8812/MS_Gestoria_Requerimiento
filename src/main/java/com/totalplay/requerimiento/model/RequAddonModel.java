@@ -37,4 +37,8 @@ public class RequAddonModel implements Serializable{
 	private String descripcion;
 	private String foliosap;
 	private String folioseg;
+	private String idUserAdmon;
+	private String idUserAut;
+
+
 }

@@ -21,6 +21,8 @@ public class RequerimientoModel implements Serializable{
 	private Integer area;
 	private String fechaRequerimiento;
 	private String fechaVencimiento;
+	private String idUser;
+
 	
 	@Override
 	public String toString() {
