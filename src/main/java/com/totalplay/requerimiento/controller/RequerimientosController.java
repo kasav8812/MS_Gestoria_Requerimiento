@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.totalplay.requerimiento.model.RequerimientoModel;
 import com.totalplay.requerimiento.model.RequerimientosModel;
+import com.totalplay.requerimiento.model.FechaVigenciaModel;
+
 import com.totalplay.requerimiento.service.RequerimientosService;
+
 
 import lombok.extern.log4j.Log4j2;
 
@@ -99,5 +102,32 @@ public class RequerimientosController {
     	public ResponseEntity<RequerimientosModel> updateRequerimiento(@RequestBody RequerimientoModel model) throws Exception {
     		log.info("updateRequerimiento: " + model.toString());
     		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.updateRequerimiento(model));
+    	}
+        
+        @PostMapping("/setFechaVigencia")
+    	public ResponseEntity<FechaVigenciaModel> setFechaVigencia(@RequestBody FechaVigenciaModel model) throws Exception {
+                System.err.println("model");
+                System.err.println(model.toString());
+    		log.info("getRequerimiento",model.toString());
+    		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setFechas(model));
+    	}
+        
+        @GetMapping("/getFechas/{id}")
+    	public ResponseEntity<List<FechaVigenciaModel>> getFechasVigencia(@PathVariable("id") String id) throws Exception {
+    		log.info("getFehcas/"+id);
+    		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.getFechasVigencia(id));
+    	}
+        
+        @GetMapping("/updateFechaVigencia/{id}")
+    	public ResponseEntity<FechaVigenciaModel> updateFechaVigencia(@PathVariable String id) throws Exception {
+    		log.info("updateRequerimiento: " + id);
+    		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.updateFechaVigencia(id));
+    	}
+        
+        @GetMapping("/deleteFechaVigencia/{id}")
+    	public String deleteFechaVigencia(@PathVariable String id) throws Exception {
+    		log.info("DeleteRequerimiento: " + id);
+    		ResponseEntity.status(HttpStatus.OK).body(requerimientosService.deleteFechaVigencia(id));
+    		return "";
     	}
 }

@@ -349,7 +349,7 @@
 			WHERE TR.TPGREQID  = #{id}
 		</if>
 	</select>
-        <update id="updateRequerimiento" >
+    <update id="updateRequerimiento" >
 		UPDATE TPG_REQUERIMIENTO 
 		    
 		    SET TPGCPID=#{req.tipoRequerimineto},
@@ -397,4 +397,50 @@
 		where
             TPGREQID=#{req.idRequerimiento}
 	</update>
+	
+	 <insert id="setFechaVigencia" >
+		INSERT INTO TPG_FECHAS_VIGENCIA(
+		    TPGFECHAID,
+		    TPGREQID,
+		    TPGVIGENCIA,
+		    TPGUNIDAD,
+		    TPGFECHAREQ,
+			TPGFECHAVIGENCIA
+		) VALUES(
+			TPGFECHAIDSec.NEXTVAL,
+			#{req.idReq},
+			#{req.vigencia},
+			#{req.unidad},
+            TO_DATE(#{req.fechaReq},'YYYY-MM-DD'),
+            TO_DATE(#{req.fechaVigencia},'YYYY-MM-DD')
+		)
+		    
+	</insert>
+	
+	<select id="getFechasVigencia" resultType="FechaVigenciaModel">
+            SELECT 
+            	TF.TPGFECHAID id,
+            	TF.TPGREQID idReq,
+            	TF.TPGVIGENCIA vigencia,
+            	TF.TPGUNIDAD unidad,
+            	TF.TPGFECHAREQ fechaReq,
+            	TF.TPGFECHAVIGENCIA fechaVigencia
+            FROM
+            TPG_FECHAS_VIGENCIA TF 
+        <if test="id != null">
+		WHERE TF.TPGREQID  = #{id}
+		</if>
+    </select>
+    
+    <update id="updateFechaVigencia" >
+		UPDATE TPG_FECHAS_VIGENCIA 
+		    SET TPGREQID = #{id}
+		where
+            TPGREQID='tmpReq'
+	</update>
+	
+	<delete id="deleteFechaVigencia">
+	DELETE FROM TPG_FECHAS_VIGENCIA
+	WHERE TPGFECHAID=#{id}
+	</delete>
 </mapper>

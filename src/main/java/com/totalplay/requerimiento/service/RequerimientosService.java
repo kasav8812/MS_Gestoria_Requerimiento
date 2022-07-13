@@ -11,6 +11,8 @@ import com.totalplay.requerimiento.model.ReqVencidosYPorVencer;
 import com.totalplay.requerimiento.model.RequAddonModel;
 import com.totalplay.requerimiento.model.RequerimientoModel;
 import com.totalplay.requerimiento.model.RequerimientosModel;
+import com.totalplay.requerimiento.model.FechaVigenciaModel;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,4 +86,28 @@ public class RequerimientosService {
         selectDao.updateRequerimiento(req);
         return selectDao.getRequerimeiinto(req.getId().toString()).get(0);
     }
+    
+    @Transactional
+    public FechaVigenciaModel setFechas(FechaVigenciaModel req) {
+        selectDao.setFechaVigencia(req);
+        return selectDao.getFechasVigencia(null).get(0);
+    }
+    
+    public List<FechaVigenciaModel> getFechasVigencia(String id) {
+        return selectDao.getFechasVigencia(id);
+    }
+    
+    @Transactional
+    public FechaVigenciaModel updateFechaVigencia(String id) {
+        selectDao.updateFechaVigencia(id);
+        return selectDao.getFechasVigencia(null).get(0);
+    }
+    
+    @Transactional
+    public String deleteFechaVigencia(String id) {
+        selectDao.deleteFechaVigencia(id);
+        return "";
+    }
+    
+    
 }

@@ -12,6 +12,9 @@ import com.totalplay.requerimiento.model.RequAddonModel;
 import com.totalplay.requerimiento.model.RequerimientoModel;
 import com.totalplay.requerimiento.model.RequerimientosModel;
 import com.totalplay.requerimiento.model.StatsuVo;
+import com.totalplay.requerimiento.model.FechaVigenciaModel;
+
+
 
 
 @Mapper
@@ -55,4 +58,13 @@ public interface SelectDao {
         public void updateRequerimiento(@Param("req") RequerimientoModel req);
 	
         public void updateRequerimientoAddon(@Param("req")RequAddonModel req);
-        }
+        
+    	public void setFechaVigencia( @Param("req") FechaVigenciaModel req);
+    	
+        public List<FechaVigenciaModel> getFechasVigencia(@Param("id") String id);
+  
+        public void updateFechaVigencia(@Param("id")String id);
+
+        public void deleteFechaVigencia(@Param("id")String id);
+
+ }
