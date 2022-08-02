@@ -13,6 +13,7 @@ import com.totalplay.requerimiento.model.RequerimientoModel;
 import com.totalplay.requerimiento.model.RequerimientosModel;
 import com.totalplay.requerimiento.model.StatsuVo;
 import com.totalplay.requerimiento.model.FechaVigenciaModel;
+import com.totalplay.requerimiento.model.ActividadesModel;
 
 
 
@@ -66,5 +67,7 @@ public interface SelectDao {
         public void updateFechaVigencia(@Param("id")String id);
 
         public void deleteFechaVigencia(@Param("id")String id);
+        
+        public Integer setActividades(@Param("act") ActividadesModel act);
 
  }

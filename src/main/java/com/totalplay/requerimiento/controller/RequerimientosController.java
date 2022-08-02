@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.totalplay.requerimiento.model.RequerimientoModel;
 import com.totalplay.requerimiento.model.RequerimientosModel;
 import com.totalplay.requerimiento.model.FechaVigenciaModel;
+import com.totalplay.requerimiento.model.ActividadesModel;
 
 import com.totalplay.requerimiento.service.RequerimientosService;
 
@@ -129,5 +130,13 @@ public class RequerimientosController {
     		log.info("DeleteRequerimiento: " + id);
     		ResponseEntity.status(HttpStatus.OK).body(requerimientosService.deleteFechaVigencia(id));
     		return "";
+    	}
+        
+        @PostMapping("/setActividades")
+    	public ResponseEntity<ActividadesModel> setActividades(@RequestBody ActividadesModel[] model) throws Exception {
+                System.err.println("model");
+                System.err.println(model.toString());
+    		log.info("setActividades",model.toString());
+    		return ResponseEntity.status(HttpStatus.OK).body(requerimientosService.setActividades(model));
     	}
 }

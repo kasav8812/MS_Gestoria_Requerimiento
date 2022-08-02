@@ -443,4 +443,18 @@
 	DELETE FROM TPG_FECHAS_VIGENCIA
 	WHERE TPGFECHAID=#{id}
 	</delete>
+	
+	<insert id="setActividades" >
+		INSERT INTO TPG_ACTIVIDADES_REQ(
+		    TPGCACREQID,
+		    TPGCREQID,
+		    TPGCACID
+		) VALUES(
+			TPGCACREQID_seq.NEXTVAL,
+			#{act.tpgcreqid},
+			#{act.tpgcacid}
+		)
+		    
+	</insert>
+	
 </mapper>

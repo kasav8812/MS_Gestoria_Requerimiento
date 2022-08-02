@@ -12,6 +12,7 @@ import com.totalplay.requerimiento.model.RequAddonModel;
 import com.totalplay.requerimiento.model.RequerimientoModel;
 import com.totalplay.requerimiento.model.RequerimientosModel;
 import com.totalplay.requerimiento.model.FechaVigenciaModel;
+import com.totalplay.requerimiento.model.ActividadesModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -109,5 +110,15 @@ public class RequerimientosService {
         return "";
     }
     
+    @Transactional
+	public ActividadesModel setActividades(ActividadesModel[] act) {
+    	ActividadesModel mUser = new ActividadesModel();
+		for(ActividadesModel mItem: act) {
+			mUser = mItem;
+			selectDao.setActividades(mItem);
+		}
+	
+		return mUser;
+	}
     
 }
