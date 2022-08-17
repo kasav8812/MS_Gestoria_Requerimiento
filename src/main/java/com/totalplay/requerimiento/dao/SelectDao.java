@@ -38,6 +38,8 @@ public interface SelectDao {
 	public List<RequerimientosModel> getRequerimientoEstado(@Param("id") String id);
 
         public List<RequAddonModel> getRequerimientoCompleto(@Param("id") String id);
+        
+        public List<RequAddonModel> getListRequerimientoByUser(@Param("id") String id);
 
         public void setRequerimientoRelacion(@Param("req") ReqVencidosYPorVencer req);
 

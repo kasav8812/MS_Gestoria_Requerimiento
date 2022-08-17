@@ -40,4 +40,10 @@ public class RequerimientoAddController {
 		log.info("updateRequerimiento: " + model.toString());
 		return ResponseEntity.status(HttpStatus.OK).body(requerimientoAddService.updateAddon(model));
 	}
+	
+	 @GetMapping("/getListRequerimientoByUser/{id}")
+ 	public ResponseEntity<List<RequAddonModel>> getListRequerimientoByUser(@PathVariable String id) throws Exception {
+ 		log.info("GET LIST: " + id);
+ 		return ResponseEntity.status(HttpStatus.OK).body(requerimientoAddService.getListRequerimientoByUser(id));
+ 	}
 }

@@ -119,7 +119,8 @@
 			FOLIOSAP,
 			FOLIOSEG,
 			TPGUID_ADMON,
-			TPGUID_AUT
+			TPGUID_AUT,
+			TPGCUID_ADDON
 		)VALUES(
 			#{req.idRequerimiento},
 			#{req.folio},
@@ -148,7 +149,8 @@
 			#{req.foliosap},			
 			#{req.folioseg},
 			#{req.idUserAdmon},
-			#{req.idUserAut}
+			#{req.idUserAut},
+			#{req.mIdUser}
 		)
 	</insert>
         
@@ -231,7 +233,7 @@
 		SELECT 
                 TPGREQID idRequerimiento,FOLIO,IMPORTE, PAYDATE,REGISTROC registroContable,NOMBRECONT nombreContacto,PROVEEDOR,
                 SISTEMA,tpgcsid tipoSolicitud,FEGRESO folioEgreso,TPGCAID area,CC,NOMBRECC,POSTFIN,INCPERMISO incluidoPermiso,HORARIO,
-                NEGACION perNeg,CANTIDAD catidad,VIGENCIA,TPGCUMID medida,FORMAPAGO,TPGCCID cobertura,TPGCACID actividad,DESCRIPCION,FOLIOSAP,FOLIOSEG,TPGUID_ADMON idUserAdmon,TPGUID_AUT idUserAut  
+                NEGACION perNeg,CANTIDAD catidad,VIGENCIA,TPGCUMID medida,FORMAPAGO,TPGCCID cobertura,TPGCACID actividad,DESCRIPCION,FOLIOSAP,FOLIOSEG,TPGUID_ADMON idUserAdmon,TPGUID_AUT idUserAut, TPGCUID_ADDON mIdUser  
                 FROM TPG_REQADDON 
 		<if test="id != null">
 			WHERE TPGREQID  = #{id}
@@ -432,6 +434,8 @@
 		</if>
     </select>
     
+
+    
     <update id="updateFechaVigencia" >
 		UPDATE TPG_FECHAS_VIGENCIA 
 		    SET TPGREQID = #{id}
@@ -457,4 +461,13 @@
 		    
 	</insert>
 	
+	    <select id="getListRequerimientoByUser" resultType="RequAddonModel">
+				SELECT 
+                TPGREQID idRequerimiento,FOLIO,IMPORTE, PAYDATE,REGISTROC registroContable,NOMBRECONT nombreContacto,PROVEEDOR,
+                SISTEMA,tpgcsid tipoSolicitud,FEGRESO folioEgreso,TPGCAID area,CC,NOMBRECC,POSTFIN,INCPERMISO incluidoPermiso,HORARIO,
+                NEGACION perNeg,CANTIDAD catidad,VIGENCIA,TPGCUMID medida,FORMAPAGO,TPGCCID cobertura,TPGCACID actividad,DESCRIPCION,FOLIOSAP,FOLIOSEG,TPGUID_ADMON idUserAdmon,TPGUID_AUT idUserAut, TPGCUID_ADDON mIdUser  
+                FROM TPG_REQADDON WHERE TPGCUID_ADDON = #{id} OR TPGUID_AUT = #{id} OR TPGUID_ADMON = #{id}
+    </select>
+    
+
 </mapper>
